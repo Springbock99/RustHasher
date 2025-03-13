@@ -3,7 +3,8 @@ use std::io;
 
 fn main() {
     println!("Welcome to RustHasher");
-    println!("Enter a smart contract function signer (e.g.., transfer(address, uint256)");
+    println!("Enter a smart contract function signature (e.g., transfer(address,uint256))");
+    println!("Note: Enter the full signature on one line, without 'function' prefix.");
 
     let mut input = String::new();
     io::stdin()
@@ -11,14 +12,17 @@ fn main() {
         .expect("Failed to read input");
 
     let input = input.trim();
+    println!("Hashing function signature: {}", input); // No quotes in debug output
+
+    // Hash the function signature
     let mut hasher = Keccak256::new();
-    hasher.update(input);
+    hasher.update(input.as_bytes()); // Explicitly convert to bytes
     let result = hasher.finalize();
 
     let selector = &result[..4];
     let hex_selector = hex::encode(selector);
+    let full_hash = hex::encode(&result); 
 
-    println!("Function Selector (Keccak-256) :0x{}", hex_selector);
-
-
+    println!("Full Hash (Keccak-256): 0x{}", full_hash);
+    println!("Function Selector (first 4 bytes): 0x{}", hex_selector);
 }
