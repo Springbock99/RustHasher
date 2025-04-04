@@ -21,19 +21,19 @@ pub fn hash_signature(input: &str) -> (String, String) {
     let result = hasher.finalize();           // Get the final 32-byte hash
     let selector = &result[..4];              // Take the first 4 bytes for the selector
     (
-        format!("0x{}", hex::encode(&result)),  // Full hash as hex string
-        format!("0x{}", hex::encode(selector)), // Selector as hex string
+        format!("0x{}", hex::encode(&result)), 
+        format!("0x{}", hex::encode(selector)),
     )
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*; // Import everything from the outer scope (like hash_signature)
+    use super::*;
 
     #[test]
     fn test_hash_signature() {
         let (full_hash, selector) = hash_signature("transfer(address,uint256)");
-        assert_eq!(selector, "0xa9059cbb"); // Check the selector matches the known value
-        assert_eq!(full_hash.len(), 66);    // Check full hash is "0x" + 64 hex chars
+        assert_eq!(selector, "0xa9059cbb");
+        assert_eq!(full_hash.len(), 66);
     }
   }
