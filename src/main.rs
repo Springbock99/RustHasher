@@ -12,16 +12,15 @@ fn main() {
         .expect("Failed to read input");
 
     let input = input.trim();
-    println!("Hashing function signature: {}", input); // No quotes in debug output
+    println!("Hashing function signature: {}", input);
 
-    // Hash the function signature
     let mut hasher = Keccak256::new();
-    hasher.update(input.as_bytes()); // Explicitly convert to bytes
+    hasher.update(input.as_bytes());
     let result = hasher.finalize();
 
     let selector = &result[..4];
     let hex_selector = hex::encode(selector);
-    let full_hash = hex::encode(&result); 
+    let full_hash = hex::encode(&result);
 
     println!("Full Hash (Keccak-256): 0x{}", full_hash);
     println!("Function Selector (first 4 bytes): 0x{}", hex_selector);
